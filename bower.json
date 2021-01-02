@@ -1,0 +1,13 @@
+{
+  "name": "kit.easyform",
+  "version": "1.2.7",
+  "main": "",
+  "ignore": [
+    "source",
+    ".gitignore",
+    ".idea",
+    "bower.json",
+    "gulpfile.js",
+    "package.json"
+  ]
+}
