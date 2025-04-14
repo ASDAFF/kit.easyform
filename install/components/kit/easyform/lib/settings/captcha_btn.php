@@ -1,7 +1,4 @@
-<?
-/**
- * Copyright (c) 2/1/2021 Created By/Edited By ASDAFF asdaff.asad@yandex.ru
- */
+<?php
 
 require_once($_SERVER['DOCUMENT_ROOT'] . "/bitrix/modules/main/include/prolog_before.php");
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_admin_before.php");
@@ -20,15 +17,15 @@ $obJSPopup->StartDescription('');
 
 ?>
 <p style="font-size: 14px;">
-    <b><? echo GetMessage('KIT_EASYFORM_FIELD_CAPTCHA_POPUP_TITLE_INNER') ?></b>
+    <b><?php echo GetMessage('KIT_EASYFORM_FIELD_CAPTCHA_POPUP_TITLE_INNER') ?></b>
 </p><!-- Заголовок диалогового окна-->
 <br>
 
 <!-- Инструкция по подключению reCaptcha-->
-<p class="note"><? echo GetMessage('KIT_EASYFORM_FIELD_CAPTCHA_POPUP_INSTRUCTION_STEP_ONE') ?></p>
+<p class="note"><?php echo GetMessage('KIT_EASYFORM_FIELD_CAPTCHA_POPUP_INSTRUCTION_STEP_ONE') ?></p>
 <br>
 
-<p class="note"><? echo GetMessage('KIT_EASYFORM_FIELD_CAPTCHA_POPUP_INSTRUCTION_STEP_TWO') ?></p>
+<p class="note"><?php echo GetMessage('KIT_EASYFORM_FIELD_CAPTCHA_POPUP_INSTRUCTION_STEP_TWO') ?></p>
 <br>
 <img style="border: 1px solid;margin-right: 30px;"
      src="/bitrix/components/kit/easyform/images/instructions_step_2.png" alt="instructions"/>
@@ -37,16 +34,16 @@ $obJSPopup->StartDescription('');
 <br>
 <br>
 
-<p class="note"><? echo GetMessage('KIT_EASYFORM_FIELD_CAPTCHA_POPUP_INSTRUCTION_STEP_THREE') ?></p>
+<p class="note"><?php echo GetMessage('KIT_EASYFORM_FIELD_CAPTCHA_POPUP_INSTRUCTION_STEP_THREE') ?></p>
 <br>
 
-<p class="note"><? echo GetMessage('KIT_EASYFORM_FIELD_CAPTCHA_POPUP_INSTRUCTION_STEP_FOUR') ?></p>
+<p class="note"><?php echo GetMessage('KIT_EASYFORM_FIELD_CAPTCHA_POPUP_INSTRUCTION_STEP_FOUR') ?></p>
 <br>
 <img style="border: 1px solid;" src="/bitrix/components/kit/easyform/images/instructions_step_4.png"
      alt="instructions"/>
 
 
-<?
+<?php
 $obJSPopup->StartContent();
 
 $key = \COption::GetOptionString('kit.easyform', 'CAPTCHA_KEY', '', SITE_ID);
@@ -58,11 +55,11 @@ $secretKey = \COption::GetOptionString('kit.easyform', 'CAPTCHA_SECRET_KEY', '',
         <table style="width: 100%;">
             <tbody>
             <tr>
-                <td><? echo GetMessage('KIT_EASYFORM_FIELD_CAPTCHA_POPUP_KEY') ?></td>
+                <td><?php echo GetMessage('KIT_EASYFORM_FIELD_CAPTCHA_POPUP_KEY') ?></td>
                 <td nowrap="">
                     <input type="text" size="25" maxlength="255" value="<?= $key ?>" name="captcha_key_val">
                 </td>
-                <td><? echo GetMessage('KIT_EASYFORM_FIELD_CAPTCHA_POPUP_SECRET_KEY') ?></td>
+                <td><?php echo GetMessage('KIT_EASYFORM_FIELD_CAPTCHA_POPUP_SECRET_KEY') ?></td>
                 <td nowrap="">
                     <input type="text" size="25" maxlength="255" value="<?= $secretKey ?>" name="captcha_secret_key_val">
                 </td>
@@ -73,14 +70,14 @@ $secretKey = \COption::GetOptionString('kit.easyform', 'CAPTCHA_SECRET_KEY', '',
     </div>
 </div>
 
-<?
+<?php
 $obJSPopup->StartButtons();
 ?>
 
 <input type="submit" class="submit_captcha" value="<?= GetMessage('KIT_EASYFORM_FIELD_CAPTCHA_POPUP_SAVE') ?>"
        onclick="return  JCCustomFormOpen.__saveData()"/>
 
-<?
+<?php
 $obJSPopup->ShowStandardButtons(array('cancel'));
 $obJSPopup->EndButtons();
 ?>
@@ -109,8 +106,7 @@ $obJSPopup->EndButtons();
 </script>
 
 
-
-<?
+<?php
 if ($REQUEST_METHOD == 'POST') {
     $_POST['captcha_key_val'] = $_POST['captcha_key_val'] ? $_POST['captcha_key_val'] : "";
     $_POST['captcha_secret_key_val'] = $_POST['captcha_secret_key_val'] ? $_POST['captcha_secret_key_val'] : "";

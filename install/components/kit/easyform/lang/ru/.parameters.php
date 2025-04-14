@@ -1,8 +1,4 @@
 <?
-/**
- * Copyright (c) 2/1/2021 Created By/Edited By ASDAFF asdaff.asad@yandex.ru
- */
-
 //DEFAULT_FIELDS
 $MESS['KIT_EASYFORM_FIELD_ADD'] = 'Символьный код нового поля, например COMPANY_NAME';
 $MESS['KIT_EASYFORM_FIELD_TITLE'] = 'Ваше имя';
