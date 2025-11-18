@@ -24,12 +24,11 @@
  * THE SOFTWARE.
  */
 
-namespace d7\easyform\lib\recaptcha\ReCaptcha;
+namespace ReCaptcha;
 
 use d7\easyform\lib\recaptcha\ReCaptcha\RequestMethod;
 use d7\easyform\lib\recaptcha\ReCaptcha\RequestParameters;
 use d7\easyform\lib\recaptcha\ReCaptcha\Response;
-use ReCaptcha\type;
 
 /**
  * reCAPTCHA client.

@@ -1,4 +1,7 @@
 <?
+/**
+ * Copyright (c) 2/1/2021 Created By/Edited By ASDAFF asdaff.asad@yandex.ru
+ */
 
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true)
     die();
@@ -20,32 +23,29 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true)
  */
 
 use Bitrix\Main;
-use Bitrix\Main\Application;
-use Bitrix\Main\Config\Option;
 use Bitrix\Main\Loader;
+use Bitrix\Main\Application;
 use Bitrix\Main\Localization\Loc;
 use Bitrix\Main\Web\Json;
+use Bitrix\Main\Config\Option;
 
 Loc::loadMessages(__FILE__);
-
-
 $context = Application::getInstance()->getContext();
 $request = $context->getRequest();
 $server = $context->getServer();
 
-
-/* ------------------------------------------ */
 $arParams['OLD_PARAMS'] = array_merge($arParams);
-foreach ($arParams['OLD_PARAMS'] as $key => $val) {
-    if ($key[0] != '~') {
-        if (is_array($val)) {
+foreach ($arParams['OLD_PARAMS'] as $key => $val){
+    if($key[0] != '~'){
+        if(is_array($val)){
             $val[] = false;
             $arParams['OLD_PARAMS'][$key] = implode('-array-', $val);
         }
-    } else {
+    } else{
         unset($arParams['OLD_PARAMS'][$key]);
     }
 }
+
 
 
 $arParams['FORM_ID'] = $arParams['FORM_ID'] ? trim($arParams['FORM_ID']) : $this->GetEditAreaId($this->__currentCounter);
@@ -55,11 +55,14 @@ $arParams['HTTP_HOST'] = $arParams['HTTP_PROTOCOL'] . $server->getHttpHost();
 $arParams['EVENT_NAME'] = 'KIT_EASYFORM';
 $arParams['USE_FORM_MASK_JS'] = 'N';
 
+
+
 if($request['AJAX']){
     $arParams['SEND_AJAX'] = 'Y';
 }
 
-/* ------------------------------------------ */
+
+
 
 TrimArr($arParams['DISPLAY_FIELDS']);
 TrimArr($arParams['REQUIRED_FIELDS']);
@@ -78,92 +81,50 @@ if (!empty($arSortField) && count($arSortField) == count($arParams['DISPLAY_FIEL
 $arParams['TEMPLATE_FOLDER'] = $this->GetPath().'/ajax.php';
 $arParams['TEMPLATE_NAME'] = $this->GetTemplateName();
 
-
-$captchaKey = "";
-$captchaSecretKey = "";
-if (Loader::IncludeModule("kit.easyform")) {
-    $captchaKey = Option::get("kit.easyform", "CAPTCHA_KEY", "", SITE_ID);
-    $captchaSecretKey = Option::get("kit.easyform", "CAPTCHA_SECRET_KEY", "", SITE_ID);
-}
-
-if(strlen($captchaKey) > 0 && strlen($captchaSecretKey) > 0){
-    $arParams["CAPTCHA_KEY"] = trim($captchaKey);
-    $arResult["CAPTCHA_SECRET_KEY"] = trim($captchaSecretKey);
-} else {
-    $arParams["CAPTCHA_KEY"] = trim($arParams["CAPTCHA_KEY"]);
-    $arResult["CAPTCHA_SECRET_KEY"] = $arParams["CAPTCHA_SECRET_KEY"];
-}
-
-
-$arParams["USE_CAPTCHA"] = $arParams["USE_CAPTCHA"] == 'Y' && strlen($arParams["CAPTCHA_KEY"]) > 1 && strlen($arResult["CAPTCHA_SECRET_KEY"]) > 1;
-
-/* ------------------------------------------ */
-
 $arResult['FORM_FIELDS'] = array();
 foreach ($arParams['DISPLAY_FIELDS_ARRAY'] as $fieldCode) {
-
-
-    if (in_array($fieldCode, $arParams['REQUIRED_FIELDS'])) {
-        $isReq = true;
-    } else {
-        $isReq = false;
-    }
-
-    if (!empty($arParams['CATEGORY_' . $fieldCode . '_PLACEHOLDER'])) {
-        $placeHolder = $arParams['CATEGORY_' . $fieldCode . '_PLACEHOLDER'];
-    } else {
-        $placeHolder = false;
-    }
-
-    if (!empty($arParams['CATEGORY_' . $fieldCode . '_TYPE'])) {
-        $typeInput = $arParams['CATEGORY_' . $fieldCode . '_TYPE'];
-    } else {
-        $typeInput = 'text';
-    }
+    $isReq = in_array($fieldCode, $arParams['REQUIRED_FIELDS']) ? true : false;
+    $placeHolder = !empty($arParams['CATEGORY_' . $fieldCode . '_PLACEHOLDER']) ? $arParams['CATEGORY_' . $fieldCode . '_PLACEHOLDER'] : false;
+    $typeInput = !empty($arParams['CATEGORY_' . $fieldCode . '_TYPE']) ? $arParams['CATEGORY_' . $fieldCode . '_TYPE'] : 'text';
+    $isMultiple = $typeInput == 'checkbox' ? true : false;
 
     $arResult['FORM_FIELDS'][$fieldCode] = array(
         'ID' => trim($arParams['FORM_ID']) . '_FIELD_' . $fieldCode,
         'TITLE' => !empty($arParams['CATEGORY_' . $fieldCode . '_TITLE']) ? htmlspecialcharsBack($arParams['CATEGORY_' . $fieldCode . '_TITLE']) : $fieldCode,
         'TYPE' => $typeInput,
-        'NAME' => 'FIELDS[' . $fieldCode . ']',
+        'NAME' => 'FIELDS['.$fieldCode.']',
         'CODE' => $fieldCode,
         'REQUIRED' => $isReq,
-        'REQ_STR' => $isReq ? ($arParams['USE_FORMVALIDATION_JS'] == 'Y' ? (' required data-bv-message="' . $arParams['CATEGORY_' . $fieldCode . '_VALIDATION_MESSAGE'] . '"') . htmlspecialcharsBack($arParams['CATEGORY_' . $fieldCode . '_VALIDATION_ADDITIONALLY_MESSAGE']) : ' required') : ' ' . htmlspecialcharsBack($arParams['CATEGORY_' . $fieldCode . '_VALIDATION_ADDITIONALLY_MESSAGE']),
+        'REQ_STR' => $isReq ? ($arParams['USE_FORMVALIDATION_JS'] == 'Y'  ?  (' required data-bv-message="'.$arParams['CATEGORY_'.$fieldCode.'_VALIDATION_MESSAGE'].'"').htmlspecialcharsBack($arParams['CATEGORY_'.$fieldCode.'_VALIDATION_ADDITIONALLY_MESSAGE']) : ' required') : ' '.htmlspecialcharsBack($arParams['CATEGORY_'.$fieldCode.'_VALIDATION_ADDITIONALLY_MESSAGE']),
         'VALUE' => !empty($arParams['CATEGORY_' . $fieldCode . '_VALUE']) ? $arParams['CATEGORY_' . $fieldCode . '_VALUE'] : '',
         'PLACEHOLDER' => $placeHolder,
-        'PLACEHOLDER_STR' => $placeHolder ? 'placeholder="' . $arParams['CATEGORY_' . $fieldCode . '_PLACEHOLDER'] . '"' : '',
+        'PLACEHOLDER_STR' => $placeHolder ? 'placeholder="'.$arParams['CATEGORY_' . $fieldCode . '_PLACEHOLDER'].'"':'',
     );
 
-    if ($typeInput == 'select_email') {
+    if ($typeInput == 'select_email'){
         $selectEmailField = $fieldCode;
     }
 
-    if ($arParams['CATEGORY_' . $fieldCode . '_INPUTMASK_TEMP']) {
-        $arResult['FORM_FIELDS'][$fieldCode]['MASK_STR'] = 'data-inputmask-mask="' . $arParams['CATEGORY_' . $fieldCode . '_INPUTMASK_TEMP'] . '" data-mask="' . $arParams['CATEGORY_' . $fieldCode . '_INPUTMASK_TEMP'] . '"';
+    if($arParams['CATEGORY_'.$fieldCode.'_INPUTMASK_TEMP']){
+        $arResult['FORM_FIELDS'][$fieldCode]['MASK_STR'] = 'data-inputmask-mask="'.$arParams['CATEGORY_'.$fieldCode.'_INPUTMASK_TEMP'].'" data-mask="'.$arParams['CATEGORY_'.$fieldCode.'_INPUTMASK_TEMP'].'"';
     }
 
-    if ($typeInput == 'file') {
-        $arResult['FORM_FIELDS'][$fieldCode]['DROPZONE_INCLUDE'] = $arParams["CATEGORY_" . $fieldCode . "_DROPZONE_INCLUDE"] == 'Y';
-        $arResult['FORM_FIELDS'][$fieldCode]['FILE_MAX_SIZE'] = $arParams["CATEGORY_" . $fieldCode . "_FILE_MAX_SIZE"];
-        $arResult['FORM_FIELDS'][$fieldCode]['FILE_EXTENSION'] = $arParams["CATEGORY_" . $fieldCode . "_FILE_EXTENSION"];
+    if($typeInput == 'file'){
+        $arResult['FORM_FIELDS'][$fieldCode]['DROPZONE_INCLUDE'] = $arParams["CATEGORY_".$fieldCode."_DROPZONE_INCLUDE"] == 'Y';
+        $arResult['FORM_FIELDS'][$fieldCode]['FILE_MAX_SIZE'] = $arParams["CATEGORY_".$fieldCode."_FILE_MAX_SIZE"];
+        $arResult['FORM_FIELDS'][$fieldCode]['FILE_EXTENSION'] = $arParams["CATEGORY_".$fieldCode."_FILE_EXTENSION"];
     }
 
-    if ($typeInput == 'radio' || $typeInput == 'checkbox') {
-        $arResult['FORM_FIELDS'][$fieldCode]['SHOW_INLINE'] = $arParams["CATEGORY_" . $fieldCode . "_SHOW_INLINE"] == "Y";
+    if($typeInput == 'radio' || $typeInput == 'checkbox'){
+        $arResult['FORM_FIELDS'][$fieldCode]['SHOW_INLINE'] = $arParams["CATEGORY_".$fieldCode."_SHOW_INLINE"] == "Y";
     }
 
-    if ($typeInput == 'checkbox') {
-        $isMultiple = true;
-    } else {
-        $isMultiple = false;
-    }
-
-    if ($typeInput == 'select') {
+    if($typeInput == 'select'){
         $isMultiSelect = $arParams['CATEGORY_' . $fieldCode . '_MULTISELECT'] == 'Y';
         $arResult['FORM_FIELDS'][$fieldCode]['MULTISELECT'] = $isMultiSelect ? 'Y' : 'N';
-        if ($isMultiSelect) {
+        if($isMultiSelect){
             $isMultiple = true;
-        } else {
+        }else{
             if (strlen(trim($arParams['CATEGORY_' . $fieldCode . "_ADD_VAL"])) > 0) {
                 $arResult['FORM_FIELDS'][$fieldCode]['SET_ADDITION_SELECT_VAL'] = true;
                 $arResult['FORM_FIELDS'][$fieldCode]['SET_ADDITION_SELECT_ID'] = $arResult['FORM_FIELDS'][$fieldCode]['ID'] . '_add';
@@ -173,7 +134,7 @@ foreach ($arParams['DISPLAY_FIELDS_ARRAY'] as $fieldCode) {
         }
     }
 
-    if ($isMultiple) {
+    if($isMultiple){
         $arResult['FORM_FIELDS'][$fieldCode]['NAME'] .= '[]';
     }
 
@@ -186,7 +147,24 @@ foreach ($arParams['DISPLAY_FIELDS_ARRAY'] as $fieldCode) {
     }
 }
 
-/* ------------------------------------------ */
+$captchaKey = "";
+$captchaSecretKey = "";
+if (Loader::IncludeModule("kit.easyform")) {
+    $captchaKey = Option::get("kit.easyform", "CAPTCHA_KEY", "", SITE_ID);
+    $captchaSecretKey = Option::get("kit.easyform", "CAPTCHA_SECRET_KEY", "", SITE_ID);
+}
+
+if(strlen($captchaKey) > 0 && strlen($captchaSecretKey) > 0){
+    $arParams["CAPTCHA_KEY"] = trim($captchaKey);
+    $arResult["CAPTCHA_SECRET_KEY"] = trim($captchaSecretKey);
+}else{
+    $arParams["CAPTCHA_KEY"] = trim($arParams["CAPTCHA_KEY"]);
+    $arResult["CAPTCHA_SECRET_KEY"] = $arParams["CAPTCHA_SECRET_KEY"];
+}
+
+$arParams["USE_CAPTCHA"] = $arParams["USE_CAPTCHA"] == 'Y' && strlen($arParams["CAPTCHA_KEY"]) > 1 && strlen($arResult["CAPTCHA_SECRET_KEY"]) > 1;
+
+
 
 $arParams['USER_EMAIL'] = '';
 $arParams['EMAIL_TO'] = trim($arParams['EMAIL_TO']) ? trim($arParams['EMAIL_TO']) : Option::get("kit.easyform", "EMAIL", "", SITE_ID);
@@ -206,6 +184,7 @@ $arParams['ENABLE_SEND_MAIL'] = $arParams['ENABLE_SEND_MAIL'] === 'Y';
 $arParams['EMAIL_FILE'] = $arParams['EMAIL_FILE'] === 'Y';
 
 
+
 $arParams['USE_JQUERY'] = $arParams['USE_JQUERY'] === 'Y';
 
 
@@ -215,8 +194,6 @@ $arParams['FORM_AUTOCOMPLETE'] = $arParams['FORM_AUTOCOMPLETE'] === 'Y';
 $arParams['FORM_SUBMIT_VALUE'] = htmlspecialcharsback($arParams['FORM_SUBMIT_VALUE']);
 $arParams['SEND_AJAX'] = $arParams['SEND_AJAX'] === 'Y';
 $arParams['FORM_SUBMIT'] = false;
-
-/* ------------------------------------------ */
 
 if ($arParams['USE_MODULE_VARNING'] != 'N' && Loader::includeModule("kit.easyform")) {
     if (Option::get("kit.easyform", "SHOW_MESSAGE", "", SITE_ID) == 'Y') {
@@ -236,6 +213,9 @@ $arFields = array();
 $isAjax = $request['AJAX'];
 
 if ($request->isPost() && $arParams['FORM_ID'] == $request['FORM_ID']) {
+
+
+
 
     $arParams['FORM_SUBMIT'] = true;
 
@@ -288,6 +268,8 @@ if ($request->isPost() && $arParams['FORM_ID'] == $request['FORM_ID']) {
             }
         }
     }
+
+
 
     $arPostFields = array();
     $emptyForm = true;
@@ -424,9 +406,11 @@ if ($request->isPost() && $arParams['FORM_ID'] == $request['FORM_ID']) {
 
         if ($arPostFields) {
 
+
             $nameStyle = 'font-weight:bold;';
             $defaultStyle = "padding:10px;border-bottom:1px dashed #dadada;";
             foreach ($arPostFields as $code => $val) {
+
 
                 foreach (GetModuleEvents("kit.easyform", "OnBeforeFieldsValue", true) as $arEvent)
                     ExecuteModuleEventEx($arEvent, array($code, &$val));

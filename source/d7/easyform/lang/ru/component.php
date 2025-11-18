@@ -1,4 +1,7 @@
-<?php
+<?
+/**
+ * Copyright (c) 2/1/2021 Created By/Edited By ASDAFF asdaff.asad@yandex.ru
+ */
 
 $MESS['KIT_EASYFORM_MESS_OK_TEXT'] = 'Сообщение успешно отправлено';
 $MESS['KIT_EASYFORM_MESS_ERROR_TEXT'] = 'Произошла ошибка. Сообщение не отправлено.';

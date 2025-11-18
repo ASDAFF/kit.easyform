@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace d7\easyform\lib\recaptcha\ReCaptcha;
+namespace ReCaptcha;
 
 use d7\easyform\lib\recaptcha\ReCaptcha\RequestParameters;
 

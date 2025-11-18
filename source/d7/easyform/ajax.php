@@ -1,4 +1,7 @@
-<?php
+<?
+/**
+ * Copyright (c) 2/1/2021 Created By/Edited By ASDAFF asdaff.asad@yandex.ru
+ */
 
 define('STOP_STATISTICS', true);
 define('NOT_CHECK_PERMISSIONS', true);

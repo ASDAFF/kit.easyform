@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace d7\easyform\lib\recaptcha\ReCaptcha\RequestMethod;
+namespace ReCaptcha\RequestMethod;
 
 /**
  * Convenience wrapper around the cURL functions to allow mocking.

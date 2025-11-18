@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace d7\easyform\lib\recaptcha\ReCaptcha\RequestMethod;
+namespace ReCaptcha\RequestMethod;
 
 use d7\easyform\lib\recaptcha\ReCaptcha\RequestMethod\Curl;
 use d7\easyform\lib\recaptcha\ReCaptcha\RequestMethod;
