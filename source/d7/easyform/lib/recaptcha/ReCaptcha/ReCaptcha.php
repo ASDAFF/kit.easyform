@@ -24,7 +24,12 @@
  * THE SOFTWARE.
  */
 
-namespace ReCaptcha;
+namespace d7\easyform\lib\recaptcha\ReCaptcha;
+
+use d7\easyform\lib\recaptcha\ReCaptcha\RequestMethod;
+use d7\easyform\lib\recaptcha\ReCaptcha\RequestParameters;
+use d7\easyform\lib\recaptcha\ReCaptcha\Response;
+use ReCaptcha\type;
 
 /**
  * reCAPTCHA client.
@@ -70,7 +75,7 @@ class ReCaptcha
         if (!is_null($requestMethod)) {
             $this->requestMethod = $requestMethod;
         } else {
-            $this->requestMethod = new RequestMethod\Post();
+            $this->requestMethod = new \d7\easyform\lib\recaptcha\ReCaptcha\RequestMethod\Post();
         }
     }
 

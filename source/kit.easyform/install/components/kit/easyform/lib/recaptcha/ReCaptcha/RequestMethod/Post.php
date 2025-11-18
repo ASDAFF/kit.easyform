@@ -26,8 +26,8 @@
 
 namespace ReCaptcha\RequestMethod;
 
-use ReCaptcha\RequestMethod;
-use ReCaptcha\RequestParameters;
+use d7\easyform\lib\recaptcha\ReCaptcha\RequestMethod;
+use d7\easyform\lib\recaptcha\ReCaptcha\RequestParameters;
 
 /**
  * Sends POST requests to the reCAPTCHA service.

@@ -47,25 +47,25 @@ class Response
      * Build the response from the expected JSON returned by the service.
      *
      * @param string $json
-     * @return \ReCaptcha\Response
+     * @return \d7\easyform\lib\recaptcha\ReCaptcha\Response
      */
     public static function fromJson($json)
     {
         $responseData = json_decode($json, true);
 
         if (!$responseData) {
-            return new Response(false, array('invalid-json'));
+            return new \d7\easyform\lib\recaptcha\ReCaptcha\Response(false, array('invalid-json'));
         }
 
         if (isset($responseData['success']) && $responseData['success'] == true) {
-            return new Response(true);
+            return new \d7\easyform\lib\recaptcha\ReCaptcha\Response(true);
         }
 
         if (isset($responseData['error-codes']) && is_array($responseData['error-codes'])) {
-            return new Response(false, $responseData['error-codes']);
+            return new \d7\easyform\lib\recaptcha\ReCaptcha\Response(false, $responseData['error-codes']);
         }
 
-        return new Response(false);
+        return new \d7\easyform\lib\recaptcha\ReCaptcha\Response(false);
     }
 
     /**

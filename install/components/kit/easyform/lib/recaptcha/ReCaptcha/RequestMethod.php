@@ -26,6 +26,8 @@
 
 namespace ReCaptcha;
 
+use d7\easyform\lib\recaptcha\ReCaptcha\RequestParameters;
+
 /**
  * Method used to send the request to the service.
  */

@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace ReCaptcha;
+namespace d7\easyform\lib\recaptcha\ReCaptcha;
 
 /**
  * Stores and formats the parameters for the request to the reCAPTCHA service.

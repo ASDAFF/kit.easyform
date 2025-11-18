@@ -24,10 +24,11 @@
  * THE SOFTWARE.
  */
 
-namespace ReCaptcha\RequestMethod;
+namespace d7\easyform\lib\recaptcha\ReCaptcha\RequestMethod;
 
-use ReCaptcha\RequestMethod;
-use ReCaptcha\RequestParameters;
+use d7\easyform\lib\recaptcha\ReCaptcha\RequestMethod;
+use d7\easyform\lib\recaptcha\ReCaptcha\RequestMethod\Socket;
+use d7\easyform\lib\recaptcha\ReCaptcha\RequestParameters;
 
 /**
  * Sends a POST request to the reCAPTCHA service, but makes use of fsockopen()
@@ -66,7 +67,7 @@ class SocketPost implements RequestMethod
     /**
      * Constructor
      *
-     * @param \ReCaptcha\RequestMethod\Socket $socket optional socket, injectable for testing
+     * @param \d7\easyform\lib\recaptcha\ReCaptcha\RequestMethod\Socket $socket optional socket, injectable for testing
      */
     public function __construct(Socket $socket = null)
     {

@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace ReCaptcha;
+namespace d7\easyform\lib\recaptcha\ReCaptcha;
 
 /**
  * The response returned from the service.

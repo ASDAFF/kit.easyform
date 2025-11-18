@@ -230,7 +230,7 @@ if ($request->isPost() && $arParams['FORM_ID'] == $request['FORM_ID']) {
     if ($arParams["USE_CAPTCHA"]) {
         require_once(dirname(__FILE__) . '/lib/recaptcha/autoload.php');
         if (isset($_REQUEST['g-recaptcha-response'])) {
-            $recaptcha = new \ReCaptcha\ReCaptcha($arResult["CAPTCHA_SECRET_KEY"]);
+            $recaptcha = new \d7\easyform\lib\recaptcha\ReCaptcha\ReCaptcha($arResult["CAPTCHA_SECRET_KEY"]);
             $resp = $recaptcha->verify($_REQUEST['g-recaptcha-response'], $_SERVER['REMOTE_ADDR']);
             if ($resp->isSuccess()) {
 

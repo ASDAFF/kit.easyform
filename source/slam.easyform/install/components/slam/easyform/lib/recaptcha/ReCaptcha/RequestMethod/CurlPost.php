@@ -26,8 +26,9 @@
 
 namespace ReCaptcha\RequestMethod;
 
-use ReCaptcha\RequestMethod;
-use ReCaptcha\RequestParameters;
+use d7\easyform\lib\recaptcha\ReCaptcha\RequestMethod\Curl;
+use d7\easyform\lib\recaptcha\ReCaptcha\RequestMethod;
+use d7\easyform\lib\recaptcha\ReCaptcha\RequestParameters;
 
 /**
  * Sends cURL request to the reCAPTCHA service.
